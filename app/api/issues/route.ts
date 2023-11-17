@@ -16,3 +16,16 @@ export async function POST(request: NextRequest) {
 
   return NextResponse.json(newIssue, { status: 201 });
 }
+
+export async function GET(response: NextResponse) {
+  try {
+    const issues = await prisma.issue.findMany();
+    return NextResponse.json(issues, { status: 200 });
+  } catch (error) {
+    console.error("Unexpected error:", error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
+  }
+}
